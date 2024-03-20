@@ -7,7 +7,7 @@ app.use(cors());
 
 // connecting to mongodb
 const mongoUrl =
-  "mongodb+srv://sarabjeet9353:G654Mrj7QLaztARY@cluster0.dwkflik.mongodb.net/";
+  "mongodb+srv://sarabjeet:sarabjeet@cluster0.d6zxygg.mongodb.net/";
 
 mongoose
   .connect(mongoUrl, {
@@ -28,11 +28,21 @@ const storage = multer.diskStorage({
   },
 });
 
+require("./pdfDetails");
+const PdfSchema = mongoose.model("PdfDetails");
 const upload = multer({ storage: storage });
 
 app.post("/upload-files", upload.single("file"), async (req, res) => {
   console.log(req.file);
-    res.send("hii");
+  const title = req.body.title;
+  const fileName = req.file.fileName;
+
+  try {
+    await PdfSchema.create({ pdf: fileName, title: title });
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.json({ status: error });
+  }
 });
 
 // API
