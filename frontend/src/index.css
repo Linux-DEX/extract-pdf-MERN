@@ -30,3 +30,20 @@ code {
 .form-control {
   border-color: black !important;
 }
+
+
+.uploaded{
+  margin-top: 30px;
+ width: 100%;
+ text-align: center;
+  
+}
+.output-div{
+  display: flex;
+    justify-content: space-evenly;
+}
+.inner-div{
+  display: flex;
+    flex-direction: column;
+}
+

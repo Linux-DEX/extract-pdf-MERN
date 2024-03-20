@@ -5,6 +5,17 @@ import "./App.css";
 function App() {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
+  const [allImage, setAllImage] = useState(null);
+
+  useEffect(() => {
+    getPdf();
+  }, []);
+
+  const getPdf = async () => {
+    const result = await axios.get("http://localhost:5000/get-files");
+    console.log(result.data.data);
+    setAllImage(result.data.data);
+  };
 
   const submitImage = async (e) => {
     e.preventDefault();
@@ -22,7 +33,15 @@ function App() {
       }
     );
     console.log(result);
+    if (result.data.status === "ok") {
+      alert("Pdf uploaded successfully");
+      getPdf();
+    }
   };
+
+  const showPdf = (pdf) => {
+    window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
+  };  
 
   return (
     <div className="App">
@@ -49,6 +68,21 @@ function App() {
           Submit
         </button>
       </form>
+      <div className="uploaded">
+        <h4>Uploaded PDF:</h4>
+        <div className="output-div">
+          {allImage == null
+            ? ""
+            : allImage.map((data) => {
+                return (
+                  <div className="inner-div">
+                    <h6>Title: {data.title}</h6>
+                    <button className="btn btn-primary" onClick={() =>{showPdf(data.pdf)}} >Show Pdf</button>
+                  </div>
+                );
+              })}
+        </div>
+      </div>
     </div>
   );
 }
