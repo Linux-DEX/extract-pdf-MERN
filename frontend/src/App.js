@@ -96,15 +96,22 @@ function App() {
                   return (
                     <div className="inner-div">
                       <h6>Title: {data.title}</h6>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          showPdf(data.pdf);
-                        }}
-                      >
-                        Show Pdf
-                      </button>
-                      <button className="btn btn-primary mt-3" onClick={() => handleDeletePdf(data.pdf)}>Delete</button>
+                      <div className="buttons">
+                        <button
+                          className="btn btn-primary m-1"
+                          onClick={() => {
+                            showPdf(data.pdf);
+                          }}
+                        >
+                          Show Pdf
+                        </button>
+                        <button
+                          className="btn btn-primary m-1"
+                          onClick={() => handleDeletePdf(data.pdf)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
