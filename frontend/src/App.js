@@ -52,6 +52,15 @@ function App() {
     setPdfFile(`http://localhost:5000/files/${pdf}`);
   };
 
+  const handleDeletePdf = async (pdf) => {
+    try {
+      await axios.delete(`http://localhost:5000/delete-file/${pdf}`);
+      getPdf();
+    } catch (error) {
+      console.error("Error deleting PDF file:", error);
+    }
+  };
+
   return (
     <div className="App">
       <form onSubmit={submitImage} className="formStyle">
@@ -80,26 +89,31 @@ function App() {
       <div className="uploaded">
         <h4>Uploaded PDF:</h4>
         <div className="output-div">
-          {allImage == null
-            ? ""
-            : allImage.map((data) => {
-                return (
-                  <div className="inner-div">
-                    <h6>Title: {data.title}</h6>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => {
-                        showPdf(data.pdf);
-                      }}
-                    >
-                      Show Pdf
-                    </button>
-                  </div>
-                );
-              })}
+          <div className="inner-left">
+            {allImage == null
+              ? ""
+              : allImage.map((data) => {
+                  return (
+                    <div className="inner-div">
+                      <h6>Title: {data.title}</h6>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          showPdf(data.pdf);
+                        }}
+                      >
+                        Show Pdf
+                      </button>
+                      <button className="btn btn-primary mt-3" onClick={() => handleDeletePdf(data.pdf)}>Delete</button>
+                    </div>
+                  );
+                })}
+          </div>
+          <div className="inner-right">
+            <PdfComp pdfFile={pdfFile} />
+          </div>
         </div>
       </div>
-      <PdfComp pdfFile={pdfFile} />
     </div>
   );
 }

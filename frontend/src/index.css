@@ -12,7 +12,7 @@ code {
     monospace;
 }
 
-.App{
+/* .App{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,4 +56,4 @@ code {
 }
 canvas.react-pdf__Page__canvas {
   margin-bottom: 50px;
-}
+} */
