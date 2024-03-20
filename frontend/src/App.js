@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { pdfjs } from "react-pdf";
+import PdfComp from "./PdfComp";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 function App() {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
   const [allImage, setAllImage] = useState(null);
+  const [pdfFile, setPdfFile] = useState(null);
 
   useEffect(() => {
     getPdf();
@@ -40,8 +48,9 @@ function App() {
   };
 
   const showPdf = (pdf) => {
-    window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
-  };  
+    // window.open(`http://localhost:5000/files/${pdf}`, "_blank", "noreferrer");
+    setPdfFile(`http://localhost:5000/files/${pdf}`);
+  };
 
   return (
     <div className="App">
@@ -77,12 +86,20 @@ function App() {
                 return (
                   <div className="inner-div">
                     <h6>Title: {data.title}</h6>
-                    <button className="btn btn-primary" onClick={() =>{showPdf(data.pdf)}} >Show Pdf</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        showPdf(data.pdf);
+                      }}
+                    >
+                      Show Pdf
+                    </button>
                   </div>
                 );
               })}
         </div>
       </div>
+      <PdfComp pdfFile={pdfFile} />
     </div>
   );
 }
